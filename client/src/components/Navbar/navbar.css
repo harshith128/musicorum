@@ -1,0 +1,7 @@
+.navbar {
+    position: relative;
+}
+
+.hamburger{
+    cursor: pointer;
+}
