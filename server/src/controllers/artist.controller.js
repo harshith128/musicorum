@@ -6,9 +6,9 @@ const Artist = require("../models/artist.model");
 
 const artistSignUp = async(req, res) => {
 
-        let artist = await Artist.findOne({email: req.body.email});
+        let artist = await Artist.findOne({artistName: req.body.artistName});
         if(artist) {
-            return res.status(400).send({message: "email found"});
+            return res.status(400).send({message: "artistName found"});
         }
         
         artist = await Artist.create({
@@ -22,9 +22,9 @@ const artistSignUp = async(req, res) => {
 const artistLogin = async(req, res) => {
     let artist;
     try {
-        artist = await Artist.findOne({email: req.body.email});
+        artist = await Artist.findOne({ $and: [ {artistName: req.body.artistName}, {password: req.body.password} ] });
         if(!artist) {
-            return res.status(400).send({message: "Please check your email ot password"});
+            return res.status(400).send({message: "Please check artistName or password"});
         }
 
         return res.status(201).send({ artist });

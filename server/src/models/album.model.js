@@ -5,8 +5,8 @@ const albumSchema = new mongoose.Schema({
     albumId: { type: String, unique: true },
     cover: { type: String },
     artistName: { type: String },
-    artistId: { type: String, unique: true },
-    genre: { type: String },
+    artistId: { type: String },
+    genre: [{ type: String }],
     year: { type: Number },
     songs: [ { name: String, duration: String } ]
 }, {
