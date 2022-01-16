@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon src/server.js"
   },
   "repository": {
     "type": "git",
@@ -18,7 +19,9 @@
   },
   "homepage": "https://github.com/harshith128/musicorum-server#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.2",
-    "mongoose": "^6.1.6"
+    "mongoose": "^6.1.6",
+    "nanoid": "^3.1.32"
   }
 }
