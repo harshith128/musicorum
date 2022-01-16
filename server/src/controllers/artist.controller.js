@@ -1,5 +1,5 @@
 const express = require("express");
-// const router = express.Router();
+const router = express.Router();
 const { nanoid } = require("nanoid");
 
 const Artist = require("../models/artist.model");
@@ -34,4 +34,9 @@ const artistLogin = async(req, res) => {
     }
 }
 
-module.exports = { artistSignUp, artistLogin };
+const getArtists = async(req, res) => {
+    let artists = await Artist.find().lean().exec();
+    return res.status(200).send({ artists });
+}
+
+module.exports = { artistSignUp, artistLogin, getArtists };
