@@ -1,0 +1,29 @@
+.album-cont {
+    width: 50%;
+    margin: auto;
+}
+
+.album {
+    width: 100%;
+    text-align: center;
+    border: 1px solid black;
+    margin-top: 20px;
+    padding: 10px;
+}
+.album > img {
+    height: 200px;
+    width: fit-content;
+    text-align: center;
+    margin: auto;
+}
+
+.paginate {
+    width: fit-content;
+    margin: auto;
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.paginate > * {
+    padding: 20px;
+}

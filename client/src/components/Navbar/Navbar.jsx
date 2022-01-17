@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { SideBar } from '../SideBar/Sidebar';
 import './navbar.css';
 
-export const Navbar = () => {
+export const Navbar = ({handleGenre, handleSort}) => {
     const [showSideBar, setShowSideBar] = useState(false);
 
     const handleClick = () => {
@@ -13,7 +13,7 @@ export const Navbar = () => {
     return (
         <>
             {
-                showSideBar ? <SideBar handleClick={handleClick} /> : <></>
+                showSideBar ? <SideBar handleClick={handleClick} handleGenre={handleGenre} handleSort={handleSort} /> : <></>
             }
             <Stack className='navbar' background="#171923" color='#E2E8F0'>
                 <Flex>
