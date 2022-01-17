@@ -1,4 +1,4 @@
-.sidebar {
-    z-index: 3;
-    position: absolute;
-}
+/* .sidebar {
+    position: fixed;
+    overflow-x: hidden;
+} */

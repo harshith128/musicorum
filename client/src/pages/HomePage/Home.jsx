@@ -1,6 +1,8 @@
 // import { Banner } from "../../components/Banner/Banner";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { Navbar } from "../../components/Navbar/Navbar";
+import { SideBar } from "../../components/SideBar/Sidebar";
 import "./home.css";
 
 export const Home = () => {
@@ -12,8 +14,6 @@ export const Home = () => {
     const getData = async() => {
         let response = await fetch(`http://localhost:2525/albums?page=${page}${genre === undefined ? "" : `&genre=${genre}`}${ sort === undefined ? "" : `&sort=${sort}`}`);
         let { albums, total } = await response.json();
-        // console.log(albums)
-        // console.log(total)
         setTot(total);
         setData(albums);
     }
@@ -24,7 +24,6 @@ export const Home = () => {
     }
 
     const handleGenre = (e) => {
-        // console.log(e)
         setPage(1);
         setGenre(e);
     }
@@ -38,27 +37,30 @@ export const Home = () => {
     }
     return (
         <div className="page">
-          <Navbar handleGenre={handleGenre} handleSort={handleSort} />
+          <Navbar />
+          <SideBar handleGenre={handleGenre} handleSort={handleSort}/>
           {/* <Banner /> */}
           <div className="album-cont">
           {
               data.map((ele, i) => {
                   return (
-                      <div className="album" key={i}>
+                    //   <Link key={i} to={`/album/${ele.albumName}`}>
+                        <div className="album"  key={i}>
                           <img src={ele.cover} alt={ele.albumName} />
                           <p>{ele.albumName}</p>
                           <p>{ele.artistName}</p>
                           <p>{ele.genre}</p>
                           <p>{ele.year}</p>
-                      </div>
+                        </div>
+                    //   </Link>
                   )
               })
           }
           </div>
           <div className="paginate">
-              <button disabled={page <= 1} onClick={() => {handlePage(-1)}}>pre</button>
+              <button disabled={page <= 1} onClick={() => {handlePage(-1)}}>Previous</button>
               <p>{page}</p>
-              <button disabled={page >= tot} onClick={() => {handlePage(1)}}>next</button>
+              <button disabled={page >= tot} onClick={() => {handlePage(1)}}>Next</button>
           </div>
         </div>
     )

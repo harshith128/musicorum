@@ -1,26 +1,13 @@
-import { HamburgerIcon, SearchIcon } from '@chakra-ui/icons';
+import { SearchIcon } from '@chakra-ui/icons';
 import { Box, Stack, Input, Flex, Heading, } from "@chakra-ui/react";
-import { useState } from 'react';
-import { SideBar } from '../SideBar/Sidebar';
 import './navbar.css';
 
-export const Navbar = ({handleGenre, handleSort}) => {
-    const [showSideBar, setShowSideBar] = useState(false);
+export const Navbar = () => {
 
-    const handleClick = () => {
-        setShowSideBar(!showSideBar);
-    } 
     return (
-        <>
-            {
-                showSideBar ? <SideBar handleClick={handleClick} handleGenre={handleGenre} handleSort={handleSort} /> : <></>
-            }
-            <Stack className='navbar' background="#171923" color='#E2E8F0'>
+            <Stack className='navbar' background="#171923" color='#E2E8F0' pos='fixed' top={0} w='100%'>
                 <Flex>
-                    <Box className='hamburger' mt="3.5" mr="4" ml="10" onClick={handleClick} >
-                        <HamburgerIcon />
-                    </Box>
-                    <Box mt="4" mr="4" ml="4">
+                    <Box mt="4" mr="4" ml="10">
                         <Heading size='sm' as="i"  border='1px' borderColor='#ff0101' p='1' borderRadius='5' color='#ff0101'>MUSICORUM</Heading>
                     </Box>
                     <Box m={2} h="40px" w='40%' ml="10" border='1px' borderColor='#E2E8F0' borderRadius='5'>
@@ -31,6 +18,5 @@ export const Navbar = ({handleGenre, handleSort}) => {
                     </Box>
                 </Flex> 
             </Stack>
-        </>
     )
 }
