@@ -19,23 +19,25 @@ export const Home = () => {
     }
 
     const handleSort = (e) => {
+        setPage(1);
         setSort(e);
     }
 
     const handleGenre = (e) => {
         // console.log(e)
-        setGenre(e)
+        setPage(1);
+        setGenre(e);
     }
     useEffect(() => {
         getData();
     }, [page, genre, sort]);
 
     const handlePage = (e) => {
-        console.log(e)
+        // console.log(e)
         setPage(page+e)
     }
     return (
-        <>
+        <div className="page">
           <Navbar handleGenre={handleGenre} handleSort={handleSort} />
           {/* <Banner /> */}
           <div className="album-cont">
@@ -58,6 +60,6 @@ export const Home = () => {
               <p>{page}</p>
               <button disabled={page >= tot} onClick={() => {handlePage(1)}}>next</button>
           </div>
-        </>
+        </div>
     )
 }
