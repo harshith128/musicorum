@@ -20,10 +20,12 @@ router.get("/newest", async(req, res) => {
         const size = 4;
         const offset = (page - 1) * size;
         let albums
+        let total
 
-        if(genre === undefined) {
+        if(genre === "undefined" || genre === "null" || genre === undefined) {
             albums = await Album.find().limit(size).skip(offset).sort({"year":-1}).lean().exec();
-            return res.status(200).send({ albums });
+            total = Math.ceil((await Album.find().countDocuments().lean().exec() ) / size);
+            return res.status(200).send({ albums, total });
         }
 
         albums = await Album.find({ genre: { $elemMatch: { $eq: genre } } }).collation( { locale: 'en', strength: 1 } ).sort({"year":-1}).limit(size).skip(offset).lean().exec();
@@ -42,7 +44,7 @@ router.get("/oldest", async(req, res) => {
         const offset = (page - 1) * size;
         let albums
 
-        if(genre === undefined) {
+        if(genre === "undefined" || genre === "null" || genre === undefined) {
             albums = await Album.find().limit(size).skip(offset).sort({"year": 1}).lean().exec();
             return res.status(200).send({ albums });
         }
@@ -57,7 +59,7 @@ router.get("/oldest", async(req, res) => {
 router.get("/:name", async(req, res) => {
     try{
         let name = req.params.name;
-        console.log(name)
+        // console.log(name)
         if(!name) {
             return res.status(404).send({ err: "missing params" });
         }
@@ -75,20 +77,52 @@ router.get("", async(req, res) => {
     try {
         const genre = req.query.genre;
         // console.log(genre)
+        let srt = req.query.sort;
+        // console.log(srt)
+        if(srt !== undefined){
+            srt = srt === "newest" ? -1 : srt === "oldest" ? 1 : undefined;
+        }
+        // console.log(srt)
         const page = req.query.page || 1;
         const size = 4;
         const offset = (page - 1) * size;
         let albums
 
-        if(genre === undefined) {
-            albums = await Album.find().limit(size).skip(offset).lean().exec();
-            return res.status(200).send({ albums });
-        }
+        if(genre === undefined && srt === undefined) {
+            // console.log(genre)
 
-        albums = await Album.find({ genre: { $elemMatch: { $eq: genre } } }).collation( { locale: 'en', strength: 1 } ).limit(size).skip(offset).lean().exec();
-        return res.status(200).send({ albums });
+            albums = await Album.find().limit(size).skip(offset).lean().exec();
+            total = Math.ceil((await Album.find().countDocuments().lean().exec() ) / size);
+
+            return res.status(200).send({ albums, total });
+
+        } else if(srt === undefined){
+
+            albums = await Album.find({ genre: { $elemMatch: { $eq: genre } } }).collation( { locale: 'en', strength: 1 } ).limit(size).skip(offset).lean().exec();
+            total = Math.ceil((await Album.find({ genre: { $elemMatch: { $eq: genre } } }).collation( { locale: 'en', strength: 1 } ).countDocuments().lean().exec() ) / size);
+
+            return res.status(200).send({ albums, total });
+
+        } else if(genre === undefined) {
+
+            albums = await Album.find().sort({"year": srt }).limit(size).skip(offset).lean().exec();
+            total = Math.ceil((await Album.find().countDocuments().lean().exec() ) / size);
+
+            return res.status(200).send({ albums, total });
+
+        } else {
+
+            albums = await Album.find({ genre: { $elemMatch: { $eq: genre } } }).collation( { locale: 'en', strength: 1 } ).sort({"year": srt }).limit(size).skip(offset).lean().exec();
+            // console.log(albums)
+            total = Math.ceil((await Album.find({ genre: { $elemMatch: { $eq: genre } } }).collation( { locale: 'en', strength: 1 } ).countDocuments().lean().exec() ) / size);
+
+            return res.status(200).send({ albums, total });
+            
+        }
     } catch (error) {
+
         return res.status(400).send({ error: error.message });
+
     }
 })
 
