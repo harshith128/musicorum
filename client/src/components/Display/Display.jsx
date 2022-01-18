@@ -8,7 +8,7 @@ export const Display = ({albumsData}) => {
                 {
                     albumsData.map((ele, i) => {
                         return (
-                            <Box key={i} h='400' p='5' background="#2D3748">
+                            <Box key={i} h='400' p='5' background="#2D3748" borderRadius='5px'>
                                 <Image src={ele.cover} alt={ele.albumName} m='auto' boxSize='200px' objectFit='cover'/>
                                 <Text pt='25px'>Title: {ele.albumName}</Text>
                                 <Text>Artist: {ele.artistName}</Text>

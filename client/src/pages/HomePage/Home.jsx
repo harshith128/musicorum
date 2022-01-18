@@ -5,6 +5,7 @@ import { useHistory, useLocation } from "react-router-dom";
 import { Display } from "../../components/Display/Display";
 import { Navbar } from "../../components/Navbar/Navbar";
 import { SideBar } from "../../components/SideBar/Sidebar";
+import { Pagination } from "../../components/Pagination/Pagination";
 import "./home.css";
 
 export const Home = () => {
@@ -59,6 +60,7 @@ export const Home = () => {
             </Box>
             <Box flexGrow={1} ml='240px' mt='100px'>
                 <Display albumsData={data} />
+                <Pagination page={page} handleChangePage={handlePage} totalPages={tot}/>
             </Box>
           </Flex>
           {/* <Banner /> */}
