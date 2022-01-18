@@ -23,3 +23,6 @@ export const Display = ({albumsData}) => {
         </Box>
     )
 }
+
+
+// if(page <= 1) return ;
