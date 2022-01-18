@@ -84,7 +84,7 @@ router.get("", async(req, res) => {
         }
         // console.log(srt)
         const page = req.query.page || 1;
-        const size = 4;
+        const size = 6;
         const offset = (page - 1) * size;
         let albums
 
@@ -117,7 +117,7 @@ router.get("", async(req, res) => {
             total = Math.ceil((await Album.find({ genre: { $elemMatch: { $eq: genre } } }).collation( { locale: 'en', strength: 1 } ).countDocuments().lean().exec() ) / size);
 
             return res.status(200).send({ albums, total });
-            
+
         }
     } catch (error) {
 
