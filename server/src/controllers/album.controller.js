@@ -65,7 +65,7 @@ router.get("/:name", async(req, res) => {
         }
         let album = await Album.findOne({ albumName: name }).collation( { locale: 'en', strength: 1 } );
         if(!album){
-            return res.status(400).json({album});
+            return res.status(500).json({album});
         }
         return res.status(200).send({album});
     } catch (error) {
