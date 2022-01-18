@@ -75,8 +75,21 @@ router.get("/:name", async(req, res) => {
 
 router.get("", async(req, res) => {
     try {
-        const genre = req.query.genre;
-        // console.log(genre)
+        let genre = req.query.genre;
+        genre = genre.trim();
+        // console.log({genre})
+        if(genre !== ''){
+            genre = genre.split(" ");
+        } else {
+            genre = undefined;
+        }
+        // console.log("-------------------")
+        // console.log("genre", genre)
+        // // 
+        // let tempa = await Album.find().collation( { locale: 'en', strength: 1 } ).lean().exec();
+        // console.log(tempa)
+        // console.log("-------------------")
+        // genre = undefined;
         let srt = req.query.sort;
         // console.log(srt)
         if(srt !== undefined){
@@ -98,8 +111,8 @@ router.get("", async(req, res) => {
 
         } else if(srt === undefined){
 
-            albums = await Album.find({ genre: { $elemMatch: { $eq: genre } } }).collation( { locale: 'en', strength: 1 } ).limit(size).skip(offset).lean().exec();
-            total = Math.ceil((await Album.find({ genre: { $elemMatch: { $eq: genre } } }).collation( { locale: 'en', strength: 1 } ).countDocuments().lean().exec() ) / size);
+            albums = await Album.find({ genre: { $in: [...genre] } }).collation( { locale: 'en', strength: 1 } ).limit(size).skip(offset).lean().exec();
+            total = Math.ceil((await Album.find({ genre: { $in: [...genre] } }).collation( { locale: 'en', strength: 1 } ).countDocuments().lean().exec() ) / size);
 
             return res.status(200).send({ albums, total });
 
@@ -112,9 +125,9 @@ router.get("", async(req, res) => {
 
         } else {
 
-            albums = await Album.find({ genre: { $elemMatch: { $eq: genre } } }).collation( { locale: 'en', strength: 1 } ).sort({"year": srt }).limit(size).skip(offset).lean().exec();
+            albums = await Album.find({ genre: { $in: [...genre] } }).collation( { locale: 'en', strength: 1 } ).sort({"year": srt }).limit(size).skip(offset).lean().exec();
             // console.log(albums)
-            total = Math.ceil((await Album.find({ genre: { $elemMatch: { $eq: genre } } }).collation( { locale: 'en', strength: 1 } ).countDocuments().lean().exec() ) / size);
+            total = Math.ceil((await Album.find({ genre: { $in: [...genre] } }).collation( { locale: 'en', strength: 1 } ).countDocuments().lean().exec() ) / size);
 
             return res.status(200).send({ albums, total });
 
