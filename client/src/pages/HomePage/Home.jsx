@@ -1,4 +1,3 @@
-// import { Banner } from "../../components/Banner/Banner";
 import { Flex, Box } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
@@ -16,7 +15,7 @@ export const Home = () => {
     const [data, setData] = useState([]);
     const [genre, setGenre] = useState();
     const [tot, setTot] = useState(0);
-    const [sort, setSort] = useState();
+    const [sort, setSort] = useState(query.get('sort') || 'popular');
 
     const [page, setPage] = useState(+query.get('page') || 1);
 
@@ -24,7 +23,7 @@ export const Home = () => {
     const getData = async() => {
         let response = await fetch(`http://localhost:2525/albums?page=${page}${genre === undefined ? "" : `&genre=${genre}`}${ sort === undefined ? "" : `&sort=${sort}`}`);
         let { albums, total } = await response.json();
-        console.log(albums)
+        // console.log(albums)
         setTot(total);
         setData(albums);
     }
@@ -35,17 +34,17 @@ export const Home = () => {
     }
 
     const handleGenre = (e) => {
-        // console.log(e)
         setPage(1);
         setGenre(e);
     }
+
     useEffect(() => {
         history.replace({
             pathname: '/',
-            search: `?page=${page}`
+            search: `?page=${page}&sort=${sort}`
         })
         getData();
-    }, [page, genre, sort]);
+    }, [page, sort]);
 
     const handlePage = (e) => {
         setPage(page+e)
@@ -63,13 +62,6 @@ export const Home = () => {
                 <Pagination page={page} handleChangePage={handlePage} totalPages={tot}/>
             </Box>
           </Flex>
-          {/* <Banner /> */}
-          {/*
-          <div className="paginate">
-              <button disabled={page <= 1} onClick={() => {handlePage(-1)}}>Previous</button>
-                <p>{page}</p>
-              <button disabled={page >= tot} onClick={() => {handlePage(1)}}>Next</button>
-          </div> */}
         </div>
     )
 }

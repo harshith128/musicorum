@@ -1,21 +1,15 @@
 import { Box, Checkbox, Flex, Stack, Text } from "@chakra-ui/react";
-import { useHistory } from "react-router-dom";
-import { useLocation } from "react-router-dom";
 import './sidebar.css';
 const genreArr = ["Pop", "Teen", "Rock", "Latin", "Dance"];
 
 export const SideBar = ({ handleGenre, handleSort }) => {
-    const location = useLocation();
-    // console.log(location)
-    const history = useHistory();
-    // console.log(history)
 
     const handleClick = (e) => {
         handleSort(e.target.value);
     }
     // zIndex={2}
     return (
-        <Stack className="sidebar" h='100%' w='240px' pos='fixed' top="55" left="0"  borderRight='1px' borderColor='#E2E8F0' p='8'>
+        <Stack className="sidebar" h='100%' w='240px' pos='fixed' top="58" left="0"  borderRight='1px' borderColor='#E2E8F0' p='8'>
             <Box>
                 <Text textAlign='left' fontSize='24'>Sort</Text>
                 <select className="sort" onClick={handleClick}>
