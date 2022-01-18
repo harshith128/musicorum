@@ -1,0 +1,7 @@
+.display {
+    display: grid;
+    width: 90%;
+    margin: auto;
+    grid-template-columns: 32% 32% 32%;
+    gap: 20px;
+}

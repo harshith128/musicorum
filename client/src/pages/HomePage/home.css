@@ -6,6 +6,8 @@
 .album-cont {
     width: 100%;
     margin: auto;
+    margin-top: 9vh;
+    padding-top: 1vh;
 }
 
 .album {

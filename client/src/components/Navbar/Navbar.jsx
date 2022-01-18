@@ -5,7 +5,7 @@ import './navbar.css';
 export const Navbar = () => {
 
     return (
-            <Stack className='navbar' background="#171923" color='#E2E8F0' pos='fixed' top={0} w='100%'>
+            <Stack className='navbar' background="#171923" color='#E2E8F0' pos='fixed' top={0} h='9vh' w='100%'>
                 <Flex>
                     <Box mt="4" mr="4" ml="10">
                         <Heading size='sm' as="i"  border='1px' borderColor='#ff0101' p='1' borderRadius='5' color='#ff0101'>MUSICORUM</Heading>

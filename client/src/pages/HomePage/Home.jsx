@@ -1,19 +1,29 @@
 // import { Banner } from "../../components/Banner/Banner";
+import { Flex, Box } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
+import { Display } from "../../components/Display/Display";
 import { Navbar } from "../../components/Navbar/Navbar";
 import { SideBar } from "../../components/SideBar/Sidebar";
 import "./home.css";
 
 export const Home = () => {
+    const history = useHistory();
+    const location = useLocation();
+    const query = new URLSearchParams(location.search);
+
     const [data, setData] = useState([]);
-    const [page, setPage] = useState(1);
     const [genre, setGenre] = useState();
     const [tot, setTot] = useState(0);
     const [sort, setSort] = useState();
+
+    const [page, setPage] = useState(+query.get('page') || 1);
+
+
     const getData = async() => {
         let response = await fetch(`http://localhost:2525/albums?page=${page}${genre === undefined ? "" : `&genre=${genre}`}${ sort === undefined ? "" : `&sort=${sort}`}`);
         let { albums, total } = await response.json();
+        console.log(albums)
         setTot(total);
         setData(albums);
     }
@@ -24,44 +34,40 @@ export const Home = () => {
     }
 
     const handleGenre = (e) => {
+        // console.log(e)
         setPage(1);
         setGenre(e);
     }
     useEffect(() => {
+        history.replace({
+            pathname: '/',
+            search: `?page=${page}`
+        })
         getData();
     }, [page, genre, sort]);
 
     const handlePage = (e) => {
-        // console.log(e)
         setPage(page+e)
     }
+
     return (
         <div className="page">
           <Navbar />
-          <SideBar handleGenre={handleGenre} handleSort={handleSort}/>
+          <Flex>
+            <Box>
+                <SideBar handleGenre={handleGenre} handleSort={handleSort}/>
+            </Box>
+            <Box flexGrow={1} ml='240px' mt='100px'>
+                <Display albumsData={data} />
+            </Box>
+          </Flex>
           {/* <Banner /> */}
-          <div className="album-cont">
-          {
-              data.map((ele, i) => {
-                  return (
-                    //   <Link key={i} to={`/album/${ele.albumName}`}>
-                        <div className="album"  key={i}>
-                          <img src={ele.cover} alt={ele.albumName} />
-                          <p>{ele.albumName}</p>
-                          <p>{ele.artistName}</p>
-                          <p>{ele.genre}</p>
-                          <p>{ele.year}</p>
-                        </div>
-                    //   </Link>
-                  )
-              })
-          }
-          </div>
+          {/*
           <div className="paginate">
               <button disabled={page <= 1} onClick={() => {handlePage(-1)}}>Previous</button>
-              <p>{page}</p>
+                <p>{page}</p>
               <button disabled={page >= tot} onClick={() => {handlePage(1)}}>Next</button>
-          </div>
+          </div> */}
         </div>
     )
 }
