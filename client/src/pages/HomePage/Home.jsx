@@ -27,8 +27,7 @@ export const Home = () => {
 
 
     const getData = async() => {
-        // ${genre === undefined ? "" : `&genre=${genreStr}`}
-        let response = await fetch(`http://localhost:2525/albums?page=${page}${ sort === undefined ? "" : `&sort=${sort}`}`);
+        let response = await fetch(`http://localhost:2525/albums?page=${page}${ sort === undefined ? "" : `&sort=${sort}`}${genre === undefined ? "" : `&genre=${genreStr}`}`);
         let { albums, total } = await response.json();
         // console.log(albums)
         setTot(total);
@@ -41,7 +40,8 @@ export const Home = () => {
     }
 
     const handleClearGenre = () => {
-        setGenre({ pop: false, teen: false, rock: false, latin: false, dance: false });
+        setPage(1);
+        setGenre(init);
     }
 
     const getGenre = () => {
@@ -68,12 +68,11 @@ export const Home = () => {
         const temp = query.get('genre');
         if(temp !== null){
             const arr = temp.split(" ");
-            arr.forEach((ele) => {
-                if(init[ele] === false){
-                    init[ele] = true;
-                }
-            })
-            setGenreStr(arr.join("+"))
+            let obj = {};
+            for(let i=0 ; i<arr.length ; i++){
+                obj[arr[i]] = true;
+            }
+            setGenre({...init, ...obj})
         }
     }, [])
 
